@@ -12,7 +12,19 @@ function App() {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    setTasks(JSON.parse(localStorage.getItem("tasks")));
+    const savedTasks = JSON.parse(localStorage.getItem("tasks"));
+    if (savedTasks && savedTasks.length > 0) {
+      setTasks(savedTasks);
+    } else {
+      // Create a default task if no tasks are saved in local storage
+      const defaultTask = {
+        id: 1,
+        title: "Default Task",
+        status: "todo"
+      };
+      setTasks([defaultTask]);
+      localStorage.setItem("tasks", JSON.stringify([defaultTask]));
+    }
   }, []);
 
   return (
